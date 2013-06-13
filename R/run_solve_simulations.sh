@@ -12,6 +12,6 @@ if [ -n "${1}" ]; then
 fi
 i=${SGE_TASK_ID}
 
-outdir="/clusterdata/uqgheman/jummy/qualitative-modeling/results"
+outdir="/clusterdata/uqgheman/jummy/qualitative-modeling/results/"
 
 R --no-save --args ${outdir} ${i} < /clusterdata/uqgheman/jummy/qualitative-modeling/R/run_solve_simulations.R
