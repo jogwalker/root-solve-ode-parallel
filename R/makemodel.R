@@ -1,5 +1,8 @@
 # make the model once for running in parallel
 
+# Load in network data 
+load("~/network.RData")
+
 # get node names
 if (class(network)=="data.frame") {node.names <- unique(network[,1])}
 if (class(network)=="matrix") {node.names <- colnames(network)}

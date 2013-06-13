@@ -56,7 +56,7 @@ createModel <- function(LVcreate.result) {
   
   filename <- "model.R"
   
-  cat("runModel <- function(t,y,p,K=NULL) {\n",file=filename)
+  cat("runModel <- function(t,y,p) {\n",file=filename)
   
   # define initial values for each node
   for (i in 1:length(nodes)) {
@@ -70,7 +70,7 @@ createModel <- function(LVcreate.result) {
   
   if(length(Kname) > 0) {
     for (i in 1:length(Kname)) {
-      cat(c(Kname[i]," <- K[",i,"]\n"),sep="",file=filename,append=TRUE)
+      cat(c(Kname[i]," <- p[",nrow(key)+i,"]\n"),sep="",file=filename,append=TRUE)
     }
   }  
   

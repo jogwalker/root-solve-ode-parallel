@@ -1,4 +1,4 @@
-runModel <- function(t,y,p,K=NULL) {
+runModel <- function(t,y,p) {
 water <- y[1]
 grass <- y[2]
 trees <- y[3]
@@ -305,8 +305,8 @@ p286 <- p[286]
 p287 <- p[287]
 p288 <- p[288]
 p289 <- p[289]
-K_grass <- K[1]
-K_trees <- K[2]
+K_grass <- p[290]
+K_trees <- p[291]
 ydot <- rep(NA,length(y))
 ydot[1] <- p1*water+p2*grass*water+p3*trees*water+p4*crops*water+p5*dom_rum*water+p6*dom_eq*water+p7*wild_rum*water+p8*wild_eq*water+p9*par_eq_dom*water+p10*par_eq_wild*water+p11*par_rum_dom*water+p12*par_rum_wild*water+p13*par_eq_inf*water+p14*par_rum_inf*water+p15*carnivores*water+p16*elephants*water+p17*people*water 
 ydot[2] <- p18*water*grass+p19*grass*(1-grass/K_grass)+p20*trees*grass+p21*crops*grass+p22*dom_rum*grass+p23*dom_eq*grass+p24*wild_rum*grass+p25*wild_eq*grass+p26*par_eq_dom*grass+p27*par_eq_wild*grass+p28*par_rum_dom*grass+p29*par_rum_wild*grass+p30*par_eq_inf*grass+p31*par_rum_inf*grass+p32*carnivores*grass+p33*elephants*grass+p34*people*grass 
