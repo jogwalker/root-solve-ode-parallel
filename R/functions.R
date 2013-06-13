@@ -54,7 +54,7 @@ createModel <- function(LVcreate.result) {
   Kname <- key$Kname[which(!is.na(key$Kname))]
   equations <- LVcreate.result[[3]]
   
-  filename <- "model.R"
+  filename <- "/clusterdata/uqgheman/jummy/qualitative-modeling/R/model.R"
   
   cat("runModel <- function(t,y,p) {\n",file=filename)
   
@@ -83,8 +83,8 @@ createModel <- function(LVcreate.result) {
   cat("list(ydot)\n}"
       ,file=filename,append=TRUE)
   
-  source(filename,keep.source=TRUE)
-  paste("Function called \'runModel(t,y,p,K)\' created")
+  #source(filename,keep.source=TRUE)
+  #paste("Function called \'runModel(t,y,p,K)\' created")
 }
 
 ### function to simulate the parameters for all

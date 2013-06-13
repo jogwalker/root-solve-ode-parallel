@@ -1,4 +1,4 @@
-# preparations to run model to run each time
+# make the model once for running in parallel
 
 # Load in network data
 load("/clusterdata/uqgheman/jummy/qualitative-modeling/R/network.rdata")
@@ -14,13 +14,10 @@ K.values <- c(10,10) # in 10 kg per m^2
 K.logical <- rep(FALSE,length(node.names))
 K.logical[match(K.limited,node.names)] <- TRUE
 
-# this will have already been created
-# createModel(LVcreate(node.names,K.logical))
-source("/clusterdata/uqgheman/jummy/qualitative-modeling/R/model.R")
+createModel(LVcreate(node.names,K.logical))
 
 # define inits
 inits <- rep(1,length(node.names))
 
 # define max timesteps
 t <- 100000
-
