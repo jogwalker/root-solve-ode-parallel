@@ -1,7 +1,7 @@
 # make the model once for running in parallel
 
-# Load in network data 
-load("~/network.RData")
+# Load in network data
+load("/clusterdata/uqgheman/jummy/qualitative-modeling/R/network.rdata")
 
 # get node names
 if (class(network)=="data.frame") {node.names <- unique(network[,1])}
