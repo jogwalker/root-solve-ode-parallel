@@ -22,7 +22,7 @@ if (class(network)=="data.frame") {node.names <- unique(network[,1])}
 else if (class(network)=="matrix") {node.names <- colnames(network)}
 
 #-------------
-                  
+
 # Step 2: create a function to define the form of a lotka-volterra equation system for use in the ode solver 
 
 #-------------
@@ -43,10 +43,10 @@ LVcreate <- function(node.names,logistic) {
     for (j in 1:n){
       # diagonal interactions
       if (j == x) {
-         if (logistic[j]==TRUE) {parts[j] <- paste("p",temp$list[j],"*",nodes[temp$Var1[j]],"*(1-",nodes[temp$Var1[j]],"/K_",nodes[temp$Var1[j]],")",sep="")
-         }
+        if (logistic[j]==TRUE) {parts[j] <- paste("p",temp$list[j],"*",nodes[temp$Var1[j]],"*(1-",nodes[temp$Var1[j]],"/K_",nodes[temp$Var1[j]],")",sep="")
+        }
         else {parts[j] <- paste("p",temp$list[j],"*",nodes[temp$Var2[j]],sep="")}
-        } 
+      } 
       # off-diagonal interactions
       else {parts[j] <- paste("p",temp$list[j],"*",nodes[temp$Var1[j]],"*",nodes[temp$Var2[j]],sep="")}
     }
@@ -189,7 +189,7 @@ unknown.links <- function(n) {
 #-------------
 
 K.limited <- c("grass","trees")
-K.values <- c(100,100) # in kg per m^2
+K.values <- c(10,10) # in 100 kg per m^2
 
 K.logical <- rep(FALSE,length(node.names))
 K.logical[match(K.limited,node.names)] <- TRUE
@@ -202,40 +202,45 @@ K.logical[match(K.limited,node.names)] <- TRUE
 # sources will be makgadikgadi report, and central statistics office...
 #-------------
 
+# simple
+inits.simple <- data.frame(node.names)
+inits.simple$value <- 1
+
+# or more complicated 
 inits <- data.frame(matrix(nrow=length(node.names),ncol=3))
 names(inits) <- c("node","low","high")
 inits$node <- node.names
-inits[which(inits$node=="water"),2:3] <- c(100,1000)
-inits[which(inits$node=="grass"),2:3] <- c(10,100)
-inits[which(inits$node=="trees"),2:3] <- c(10,100)
-inits[which(inits$node=="crops"),2:3] <- c(1,100)
-inits[which(inits$node=="dom_rum"),2:3] <- c(,)
-inits[which(inits$node=="dom_eq"),2:3] <- c(,)
-inits[which(inits$node=="wild_rum"),2:3] <- c(,)
-inits[which(inits$node=="wild_eq"),2:3] <- c(,)
-inits[which(inits$node=="par_eq_dom"),2:3] <- c(,)
-inits[which(inits$node=="par_eq_wild"),2:3] <- c(,)
-inits[which(inits$node=="par_rum_dom"),2:3] <- c(,)
-inits[which(inits$node=="par_rum_wild"),2:3] <- c(,)
-inits[which(inits$node=="par_eq_inf"),2:3] <- c(,)
-inits[which(inits$node=="par_rum_inf"),2:3] <- c(,)
-inits[which(inits$node=="carnivores"),2:3] <- c(,)
-inits[which(inits$node=="elephants"),2:3] <- c(,)
-inits[which(inits$node=="people"),2:3] <- c(,)
+inits[which(inits$node=="water"),2:3] <- c(1,1)
+inits[which(inits$node=="grass"),2:3] <- c(1,1)
+inits[which(inits$node=="trees"),2:3] <- c(1,1)
+inits[which(inits$node=="crops"),2:3] <- c(1,1)
+inits[which(inits$node=="dom_rum"),2:3] <- c(1,1)
+inits[which(inits$node=="dom_eq"),2:3] <- c(1,1)
+inits[which(inits$node=="wild_rum"),2:3] <- c(1,1)
+inits[which(inits$node=="wild_eq"),2:3] <- c(1,1)
+inits[which(inits$node=="par_eq_dom"),2:3] <- c(1,1)
+inits[which(inits$node=="par_eq_wild"),2:3] <- c(1,1)
+inits[which(inits$node=="par_rum_dom"),2:3] <- c(1,1)
+inits[which(inits$node=="par_rum_wild"),2:3] <- c(1,1)
+inits[which(inits$node=="par_eq_inf"),2:3] <- c(1,1)
+inits[which(inits$node=="par_rum_inf"),2:3] <- c(1,1)
+inits[which(inits$node=="carnivores"),2:3] <- c(1,1)
+inits[which(inits$node=="elephants"),2:3] <- c(1,1)
+inits[which(inits$node=="people"),2:3] <- c(1,1)
 
 #-------------
 
 # Step 8: define range of reasonable equilibrium values (for some)
-
+# currently made up values
 #-------------
 
 eq.range <- inits
-eq.range[,c("low")] <- 1
+eq.range[,c("low")] <- 0
 eq.range[,c("high")] <- NA
-eq.range[which(eq.range$node=="wild_rum"),2:3] <- c(,)
-eq.range[which(eq.range$node=="wild_eq"),2:3] <- c(,)
-eq.range[which(eq.range$node=="carnivores"),2:3] <- c(,)
-eq.range[which(eq.range$node=="elephants"),2:3] <- c(,)
+eq.range[which(eq.range$node=="wild_rum"),2:3] <- c(.5,1.5)
+eq.range[which(eq.range$node=="wild_eq"),2:3] <- c(.5,1.5)
+eq.range[which(eq.range$node=="carnivores"),2:3] <- c(.05,.15)
+eq.range[which(eq.range$node=="elephants"),2:3] <- c(.1,.4)
 # also, all runsteady output $y should be > 0
 
 #-------------
@@ -253,12 +258,38 @@ runSim <- function(inits, timesteps, parameters) {
   if (class(run.try)[1]!="try-error") {temp <- run.try}
   return(temp)
 }
-  
+
 #-------------
 
 # Step 10: run all the loops
 
 #-------------
+runSimLoop <- function(n,inits,timesteps,network,keep.params=TRUE){
+  # simulate all the parameters up front
+  parameters.labeled <- simParams(n,network)
+  parameters <- data.frame(parameters.labeled[,-c(1:3)])
+  
+  # initialize results list and counter
+  results <- list()
+  successes <- list()
+  
+  # run the loop
+  for (i in 1:n) {
+    run.try <- try(
+      runsteady(y=inits, times = c(0,timesteps),func=runModel,parms=parameters[,i],mf=22)
+      ,silent=TRUE)
+    if (class(run.try)[1]!="try-error") {
+      results[[i]] <- run.try
+      successes <- c(successes,i)
+    }
+    else {results[[i]] <- NA}
+    print(paste(i," out of ",n, " runs completed \n", length(successes)," successes"))
+  }
+  if(keep.params==FALSE) {
+    return(c(successes,results))
+  }
+  else {return (c(parameters.labeled,successes,results))}
+}
 
 
 #-------------
@@ -281,11 +312,19 @@ runSim <- function(inits, timesteps, parameters) {
 # ----> also!! write up what the model is. this will help make those arbitrary decisions because they will be recorded.
 
 ######################
+# another way to make the model... as a matrix
+
+
+
+
+
+
+#######################
+
 
 # test
 
 node.names
-logs <- rep(false,length(node.names))
 logs <- rep(FALSE,length(node.names))
 logs
 
@@ -296,7 +335,44 @@ t <- 10000
 pars <- simParams(1,network)
 print(system.time(
   x <- runSim(inits, t, pars[,4])
-  ))
+))
 
+#-----------------------
 
+# test 2
 
+x <- letters[1:10]
+log <- rep(FALSE,length(letters))
+network.10 <- expand.grid(x,x)
+network.10[,3] <- "uk"
+names(network.10) <- c("to","from","class")
+
+createModel(LVcreate(x,log))
+inits <- rep(1,length(x))
+t <- 10000
+# pars <- simParams(1,network.10) # need to actually define the classes of the nodes
+pars <- simParams(1,network)[1:100,4]
+x <- runSim(inits,t,pars)
+
+#----------------------
+
+# test 3
+
+n <- 2 # iterations
+t <- 10000
+y0 <- rep(1,length(node.names))
+logs <- rep(FALSE,length(node.names))
+createModel(LVcreate(node.names,logs))
+x <- runSimLoop(n=n,inits=y0,timesteps=t,network=network,keep.params=FALSE)
+x[[2]]
+
+# test 4
+
+names.4 <- letters[1:4]
+network.4 <- expand.grid(names.4,names.4)
+network.4[,3] <- "uk"
+names(network.4) <- c("to","from","class")
+network.4[which(network.4$to==network.4$from),"class"] <- "dd"
+network.4[2,3] <- "pr"
+network.4[5,3] <-  "py"
+#.....
