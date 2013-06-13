@@ -18,7 +18,8 @@ result <- runSim(inits=inits, timesteps=t,parameters=c(parameters$"value",K.valu
 
 # write output file
 output <- list(result=result,parameters=parameters)
-ifelse(is.na(result),
-  save(output,file=paste(outdir,"results_",jid,".Rdata",sep="")),
-  save(output,file=paste(outdir,"results_",jid,"success.Rdata",sep=""))
+filename <- ifelse(is.na(result[1]),
+                   paste(outdir,"results_",jid,".Rdata",sep=""),
+                   paste(outdir,"results_",jid,"success.Rdata",sep="")
 )
+save(output, file=filename)
