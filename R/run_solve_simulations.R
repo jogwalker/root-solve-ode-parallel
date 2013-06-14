@@ -10,7 +10,7 @@ source("/clusterdata/uqgheman/jummy/qualitative-modeling/R/functions.R")
 source("/clusterdata/uqgheman/jummy/qualitative-modeling/R/makemodel.R")
 
 # create parameters
-set.seed(jid*123456)
+set.seed(jid)
 parameters <- simParams(network)
 
 # Run analysis

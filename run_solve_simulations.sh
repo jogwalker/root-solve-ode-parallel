@@ -4,7 +4,7 @@
 #$ -S /bin/bash
 #$ -o job_reports/
 #$ -e job_reports/
-#$ -t 1001-10000
+#$ -t 80001-100000
 #$ -l h_vmem=2G
 
 if [ -n "${1}" ]; then
@@ -12,6 +12,6 @@ if [ -n "${1}" ]; then
 fi
 i=${SGE_TASK_ID}
 
-outdir="/clusterdata/uqgheman/jummy/qualitative-modeling/results/test/"
+outdir="/clusterdata/uqgheman/jummy/qualitative-modeling/results/"
 
 R --no-save --args ${outdir} ${i} < /clusterdata/uqgheman/jummy/qualitative-modeling/R/run_solve_simulations.R
