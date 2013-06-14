@@ -4,7 +4,7 @@
 #$ -S /bin/bash
 #$ -o job_reports/
 #$ -e job_reports/
-#$ -t 80001-100000
+#$ -t 1-10000
 #$ -l h_vmem=2G
 
 if [ -n "${1}" ]; then
