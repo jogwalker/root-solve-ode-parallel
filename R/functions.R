@@ -161,9 +161,9 @@ simParams <- function(network) {
     # standard beta distribution (positive or negative)
     parameters[which(link.index$ab),] <- rbeta(sum(link.index$ab),0.5,1)
     parameters[which(link.index$co),] <- -rbeta(sum(link.index$co),0.5,1)
-    parameters[which(link.index$py),] <- -rbeta(sum(link.index$py),0.5,1)
+    parameters[which(link.index$py),] <- rbeta(sum(link.index$py),0.5,1)
     parameters[which(link.index$mu),] <- rbeta(sum(link.index$mu),0.5,1)
-    parameters[which(link.index$pr),] <- rbeta(sum(link.index$pr),0.5,1)
+    parameters[which(link.index$pr),] <- -rbeta(sum(link.index$pr),0.5,1)
     parameters[which(link.index$"in"),] <- -rbeta(sum(link.index$"in"),0.5,1)
     #other distributions
     parameters[which(link.index$uk),] <- unknown.links(sum(link.index$uk))
