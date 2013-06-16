@@ -4,8 +4,8 @@
 #$ -S /bin/bash
 #$ -o job_reports/
 #$ -e job_reports/
-#$ -t 1-10000
-#$ -l h_vmem=2G
+#$ -t 190001-210000
+#$ -l h_vmem=1G
 
 if [ -n "${1}" ]; then
         SGE_TASK_ID=${1}
