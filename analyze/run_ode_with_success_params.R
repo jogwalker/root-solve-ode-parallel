@@ -39,18 +39,29 @@ winners <- summary$id[winners.ind]
 save(results.winners, file="NoNegs.Rdata")
 
 ####################################
-
-inits <- rep(1,length(results.winners[[1]][2][[1]]$y))
-t <- seq(1,1000,1)
-
-for (i in 1:length(winners.ind)) {
-  parameters <- c(results.winners[[i]][[3]]$value,K.values)
-  results.winners[[i]][[4]] <- ode(inits,t,runModel,parameters)
-}
+# 
+# inits <- rep(1,length(results.winners[[1]][2][[1]]$y))
+# t <- seq(1,1000,1)
+# 
+# for (i in 1:length(winners.ind)) {
+#   parameters <- c(results.winners[[i]][[3]]$value,K.values)
+#   results.winners[[i]][[4]] <- ode(inits,t,runModel,parameters)
+# }
 
 #a <- runsteady(y=inits, times = c(0,1000),func=runModel,parms=parameters,mf=22)
 
+# ran on cluster, read in 
 
+resultsODE <- list()
+dim.output <- matrix(nrow=length(winners),ncol=2)
+
+for (i in 1:length(winners)) {
+  file <- paste("C:/Users/Josephine/Dropbox/Dropbox Documents/Bristol_PhD/R/qualitative modeling/results/runODE/runODEresults/runODE_",winners[i],".RData",sep="")
+  load(file)
+
+  resultsODE[[i]] <- output
+  dim.output[i,] <- dim(resultsODE[[i]][[4]])
+}
 
 
 
