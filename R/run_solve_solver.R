@@ -16,7 +16,7 @@ runSim.result <- this[[2]]
 params <- this[[3]]
 
 inits <- rep(1,length(runSim.result$y))
-t <- seq(1,10000,1)
+t <- seq(1,10000,0.1)
 K.values <- c(10,10)
 parameters <- c(params$value,K.values)
 
@@ -25,5 +25,5 @@ results <- ode(inits,t,runModel,parameters)
 output <- list(seed,runSim.result,params,results)
 
 # write output file
-filename <- paste("runODE_",seed,".Rdata",sep="")
+filename <- paste("runODE_t2_",seed,".Rdata",sep="")
 save(output, file=filename)
