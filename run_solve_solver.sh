@@ -12,6 +12,6 @@ if [ -n "${1}" ]; then
 fi
 i=${SGE_TASK_ID}
 
-outdir="/clusterdata/uqgheman/jummy/qualitative-modeling/results/runODE/"
+outdir="/clusterdata/uqgheman/jummy/root-solve-ode-parallel/results/runODE/"
 
-R --no-save --args ${outdir} ${i} < /clusterdata/uqgheman/jummy/qualitative-modeling/R/run_solve_solver.R
+R --no-save --args ${outdir} ${i} < /clusterdata/uqgheman/jummy/root-solve-ode-parallel/R/run_solve_solver.R

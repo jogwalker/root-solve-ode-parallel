@@ -6,10 +6,10 @@ jid <- as.numeric(args[2])
 library(deSolve)
 
 # load the model
-source("/clusterdata/uqgheman/jummy/qualitative-modeling/R/model.R")
+source("/clusterdata/uqgheman/jummy/root-solve-ode-parallel/R/model.R")
 
 # read in the data
-load("/clusterdata/uqgheman/jummy/qualitative-modeling/R/NoNegs.Rdata")
+load("/clusterdata/uqgheman/jummy/root-solve-ode-parallel/R/NoNegs.Rdata")
 this <- results.winners[[jid]]
 seed <- this[[1]]
 runSim.result <- this[[2]]
@@ -25,5 +25,5 @@ results <- ode(inits,t,runModel,parameters)
 output <- list(seed,runSim.result,params,results)
 
 # write output file
-filename <- paste("runODE_t2_",seed,".Rdata",sep="")
+filename <- paste(outdir,"runODE_t2_",seed,".Rdata",sep="")
 save(output, file=filename)
