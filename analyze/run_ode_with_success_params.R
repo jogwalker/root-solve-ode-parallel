@@ -1,6 +1,6 @@
 # load the list of filenames (without)
 
-all.filenames <- read.table("C:/Users/Josephine/Dropbox/Dropbox Documents/Bristol_PhD/R/qualitative modeling/results/successes.txt")
+all.filenames <- read.table("C:/Users/Josephine/Dropbox/Dropbox Documents/Bristol_PhD/R/root-solve-ode-parallel/results/successes.txt")
 
 results <- list()
 
@@ -52,16 +52,22 @@ save(results.winners, file="NoNegs.Rdata")
 
 # ran on cluster, read in 
 
-resultsODE <- list()
-dim.output <- matrix(nrow=length(winners),ncol=2)
+load("C:/Users/Josephine/Dropbox/Dropbox Documents/Bristol_PhD/R/root-solve-ode-parallel/R/NoNegs.Rdata")
 
-for (i in 1:length(winners)) {
-  file <- paste("C:/Users/Josephine/Dropbox/Dropbox Documents/Bristol_PhD/R/qualitative modeling/results/runODE/runODEresults/runODE_",winners[i],".RData",sep="")
+resultsODE <- list()
+dim.output <- matrix(nrow=length(results.winners),ncol=2)
+
+for (i in 1:length(results.winners)) {
+  file <- paste("C:/Users/Josephine/Dropbox/Dropbox Documents/Bristol_PhD/R/root-solve-ode-parallel/results/runODE/runODE_t2_results/runODE_t2_",results.winners[[i]][[1]],".RData",sep="")
   load(file)
 
   resultsODE[[i]] <- output
   dim.output[i,] <- dim(resultsODE[[i]][[4]])
 }
+
+a <- resultsODE[[1]][[4]]
+plot(resultsODE[[2]][[4]])
+
 
 
 
